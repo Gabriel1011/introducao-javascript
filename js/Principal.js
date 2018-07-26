@@ -22,15 +22,22 @@ for (var i = 0; i < pacientes.length; i++) {
     var imc = paciente.querySelector(".info-imc");
 
     if (peso > 200 || peso < 0) {
-        imc.textContent = "Peso ínvalido!"
+        imc.textContent = "Peso ínvalido!";
+        PintarLinhaDivergente(paciente);
     }
     else if(altura > 3.20 || altura < 0){
-        imc.textContent = "Altura ínvalida!"
+        imc.textContent = "Altura ínvalida!";
+        PintarLinhaDivergente(paciente);
     }
     else{
         var valorImc = peso / (altura * altura);
         imc.textContent = valorImc.toFixed(2);
         console.log(valorImc);
     }
+}
+
+function PintarLinhaDivergente(paciente)
+{
+    paciente.style.backgroundColor = "lightcoral";
 }
 
