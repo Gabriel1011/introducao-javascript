@@ -23,9 +23,12 @@ for (var i = 0; i < pacientes.length; i++) {
 
     if (peso > 200 || peso < 0) {
         imc.textContent = "Peso ínvalido!"
+        paciente.classList.add("paciente-invalido");
+        // paciente.style.backgroundColor="red";
     }
     else if(altura > 3.20 || altura < 0){
         imc.textContent = "Altura ínvalida!"
+        paciente.classList.add("paciente-invalido");
     }
     else{
         var valorImc = peso / (altura * altura);
