@@ -3,39 +3,63 @@ var btnAdcionarPaciente =
     document.querySelector("#adicionar-paciente").addEventListener("click", adicionarPaciente);
 
 function adicionarPaciente() {
+
     event.preventDefault();
     var formAdicoinar = document.querySelector("#form-adicionar");
-    
     var paciente = obterDadosDoForm(formAdicoinar);
-    var pacienteTr = MontarTr(paciente, pacienteTr);
 
-    var tabelaPaciente = document.querySelector("#tabela-pacientes");
-    tabelaPaciente.appendChild(pacienteTr);
+    var erros = ValidarPaciente(paciente);
+    if (erros.length > 0) {
+        return ExibiMensagemErro(erros);
+    }
+
+    var pacienteTr = MontarTr(paciente, pacienteTr);
 }
 
+
+function ExibiMensagemErro(erros) {
+    var listaErro = document.querySelector("#mensagemErro");
+    listaErro.innerHTML = "";
+    erros.forEach(erro => {
+        var liErro = document.createElement("li");
+        liErro.textContent = erro;
+        listaErro.appendChild(liErro);
+    });
+    return;
+}
 
 function MontarTr(paciente) {
 
     var pacienteTr = document.createElement("tr");
-    var nomeTd = document.createElement("td");
-    var pesoTd = document.createElement("td");
-    var alturaTd = document.createElement("td");
-    var gorduraTd = document.createElement("td");
-    var imcTd = document.createElement("td");
-    
-    nomeTd.textContent = paciente.nome;
-    pesoTd.textContent = paciente.peso;
-    alturaTd.textContent = paciente.altura;
-    gorduraTd.textContent = paciente.gordura;
-    imcTd.textContent = calcularIMC(paciente.peso, paciente.altura);
+    pacienteTr.classList.add("paciente");
 
-    pacienteTr.appendChild(nomeTd);
-    pacienteTr.appendChild(pesoTd);
-    pacienteTr.appendChild(alturaTd);
-    pacienteTr.appendChild(gorduraTd);
-    pacienteTr.appendChild(imcTd);
+    pacienteTr.appendChild(montaTd(paciente.nome, "info-nome"));
+    pacienteTr.appendChild(montaTd(paciente.peso, "info-peso"));
+    pacienteTr.appendChild(montaTd(paciente.altura, "info-altura"));
+    pacienteTr.appendChild(montaTd(paciente.gordura, "info-gordura"));
+    pacienteTr.appendChild(montaTd(paciente.IMC, "info-imc"));
+
+    var tabelaPaciente = document.querySelector("#tabela-pacientes");
+    tabelaPaciente.appendChild(pacienteTr);
 
     return pacienteTr;
+}
+
+function montaTd(dado, classe) {
+    var td = document.createElement("td");
+    td.textContent = dado;
+    td.classList.add(classe);
+
+    return td;
+}
+
+function ValidarPaciente(paciente) {
+    var erros = [];
+    if (paciente.nome.length == 0) erros.push("O nome não pode ser em branco.");
+    if (paciente.gordura.length == 0) erros.push("A gordura não pode ser em branco.");
+    if (!ValidaPeso(paciente.peso) || paciente.peso.length == 0) erros.push("Peso é Inválido!");
+    if (!ValidarAltura(paciente.altura) || paciente.altura.length == 0) erros.push("Altura é Inválido!");
+    return erros;
 }
 
 function obterDadosDoForm(form) {
