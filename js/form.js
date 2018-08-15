@@ -13,7 +13,7 @@ function adicionarPaciente() {
         return ExibiMensagemErro(erros);
     }
 
-    var pacienteTr = MontarTr(paciente, pacienteTr);
+    var pacienteTr = AdcionarPaciente(paciente, pacienteTr);
 }
 
 
@@ -28,7 +28,7 @@ function ExibiMensagemErro(erros) {
     return;
 }
 
-function MontarTr(paciente) {
+function AdcionarPaciente(paciente) {
 
     var pacienteTr = document.createElement("tr");
     pacienteTr.classList.add("paciente");
@@ -37,7 +37,7 @@ function MontarTr(paciente) {
     pacienteTr.appendChild(montaTd(paciente.peso, "info-peso"));
     pacienteTr.appendChild(montaTd(paciente.altura, "info-altura"));
     pacienteTr.appendChild(montaTd(paciente.gordura, "info-gordura"));
-    pacienteTr.appendChild(montaTd(paciente.IMC, "info-imc"));
+    pacienteTr.appendChild(montaTd(paciente.imc, "info-imc"));
 
     var tabelaPaciente = document.querySelector("#tabela-pacientes");
     tabelaPaciente.appendChild(pacienteTr);
@@ -68,7 +68,7 @@ function obterDadosDoForm(form) {
         peso: form.peso.value,
         altura: form.altura.value,
         gordura: form.gordura.value,
-        IMC: calcularIMC(form.peso.value, form.altura.value)
+        imc: calcularimc(form.peso.value, form.altura.value)
     }
     return paciente;
 }
